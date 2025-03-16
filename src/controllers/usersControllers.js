@@ -46,8 +46,11 @@ const usersControllers = {
       if(!usuarioExist){
        return res.status(400).json(`Usuário não encontrado!`);
       }
+
+      const salt = 12;
+      const cripto = await bcrypt.hash(senha, salt);
       
-      const usuario = await User.findByIdAndUpdate(id, { nome, senha },
+      const usuario = await User.findByIdAndUpdate(id, { nome, senha: cripto },
         { new: true } // Opção para retornar o documento atualizado
       )
 
