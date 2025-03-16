@@ -67,7 +67,7 @@ const usersControllers = {
        const usuarioExist = await User.findById(id);
 
        if(!usuarioExist){
-        return res.status(400).json(`Usuário não encontrado!`);
+        return res.status(404).json(`Usuário não encontrado!`);
        }
 
        await User.findByIdAndDelete(id);
@@ -75,7 +75,7 @@ const usersControllers = {
        return res.status(200).json(`Usuário excluido com sucesso!`);
     } catch (error) {
         console.log(error);
-        res.status(400).json(`Falha ao excluir usuario tente novamnte!`);
+        res.status(500).json(`Falha ao excluir usuario tente novamnte!`);
     }
 },
 }
