@@ -19,7 +19,7 @@ const usersControllers = {
       const usuarioExist = await User.findOne({ email });
 
       if(usuarioExist){
-        return res.status(400).res({msg: 'Usuário já cadastrado!'});
+        return res.status(409).json({msg: 'Usuário já cadastrado!'});
       }
 
       const salt = 12;
