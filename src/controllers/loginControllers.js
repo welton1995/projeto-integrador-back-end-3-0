@@ -3,6 +3,15 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
+function gerarNovaSenha(tamanho = 6) {
+  const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
+  let senha = '';
+  for (let i = 0; i < tamanho; i++) {
+      senha += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+  }
+  return senha;
+}
+
 
 const loginControllers = {
   async login(req, res) {
@@ -44,6 +53,13 @@ const loginControllers = {
 
     const user = await User.findOne({ email });
 
+    const novaSenha = gerarNovaSenha(6);
+
+    const cripto = await bcrypt.hash(novaSenha, 10);
+
+    user.senha = cripto;
+    await user.save();
+
     if(!user){
       return res.status(404).json('E-mail não encontrado!');
     }
@@ -69,7 +85,7 @@ const loginControllers = {
       html: `
       <h1>Recuperação de Senha 🔑</h1>
       <h3>Olá, ${user.nome}</h3>
-      <h3>Sua nova senha é: <strong>123456</strong>🔐</h3><br><br><br><br><br>
+      <h3>Sua nova senha é: <strong>${novaSenha}</strong>🔐</h3><br><br><br><br><br>
       <p>Se você não solicitou essa alteração, ignore este e-mail.</p>
     `
     }
