@@ -43,5 +43,6 @@ routes.post('/servicos/busca-periodo', servicosControllers.buscarServicosPorTipo
 
 // Login Rotas
 routes.post('/login', loginControllers.login);
+routes.post('/login/recuperar', loginControllers.recuperar);
 
 module.exports = routes;
