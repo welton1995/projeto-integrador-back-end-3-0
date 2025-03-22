@@ -36,7 +36,7 @@ const loginControllers = {
         token, 
         user: {
           id: user._id, 
-          name: user.name, 
+          nome: user.nome, 
           email: user.email,
           tipo: user.tipo
         } 
