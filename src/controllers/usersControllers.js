@@ -14,7 +14,7 @@ const usersControllers = {
 
   async criar(req, res) {
     try {
-      const { nome, email, senha }= req.body;
+      const { nome, email, senha, tipo }= req.body;
 
       const usuarioExist = await User.findOne({ email });
 
@@ -27,7 +27,7 @@ const usersControllers = {
 
 
       const novoUsuario = await User.create({
-        nome, email, senha: cripto
+        nome, email, senha: cripto, tipo
       });
 
       res.status(201).json('Usuário cadastrado com sucesso!');
@@ -39,7 +39,7 @@ const usersControllers = {
   async atualizar(req, res) {
     try {
       const { id } = req.params;
-      const { nome, senha } = req.body;
+      const { nome, senha, tipo } = req.body;
 
       const usuarioExist = await User.findById(id);
 
@@ -50,7 +50,7 @@ const usersControllers = {
       const salt = 12;
       const cripto = await bcrypt.hash(senha, salt);
       
-      const usuario = await User.findByIdAndUpdate(id, { nome, senha: cripto },
+      const usuario = await User.findByIdAndUpdate(id, { nome, senha: cripto, tipo },
         { new: true } // Opção para retornar o documento atualizado
       )
 
