@@ -4,7 +4,9 @@ const bcrypt = require('bcrypt');
 const usersControllers = {
   async listar(req, res) {
     try {
-      const users = await User.find({ email: { $ne: ["welton.araujo2014@gmail.com", "admin@email.com"] } });
+      const admins = ["welton.araujo2014@gmail.com", "admin@email.com"];
+      
+      const users = await User.find({ email: { $ne: admins } });
 
       res.status(200).json({ users });
     } catch (error) {
